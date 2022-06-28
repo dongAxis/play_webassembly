@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <emscripten.h>
+#include <wasi/api.h>
+
 #ifndef EM_PORT_API
 #	if defined(__EMSCRIPTEN__)
 #		include <emscripten.h>
@@ -15,18 +19,11 @@
 #	endif
 #endif
 
-EM_PORT_API(int) js_add(int a, int b);
-EM_PORT_API(void) js_console_log_int(int param);
+//#define EM_IMPORT(NAME) __attribute__((import_module("env"), import_name(#NAME)))
+EM_PORT_API(int) fuck(char  *ptr) __attribute__((import_module("bar")));
 
-EM_PORT_API(int) show_me_the_answer(int *ptr) {
-    return 42 + *ptr;
-}
-
-EM_PORT_API(float) add(float a, float b) {
-    return a + b;
-}
-
-EM_PORT_API(void) print_the_answer() {
-    int i = js_add(21, 21);
-    js_console_log_int(i);
+EM_PORT_API(void) __attribute__((import_module("bar"))) foo(void);
+EM_PORT_API(void) call(char  *ptr) {
+  foo();
+  fuck(ptr);
 }

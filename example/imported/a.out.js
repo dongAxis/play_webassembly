@@ -1494,7 +1494,7 @@ function createExportWrapper(name, fixedasm) {
 }
 
 var wasmBinaryFile;
-  wasmBinaryFile = 'export1.wasm';
+  wasmBinaryFile = 'a.out.wasm';
   if (!isDataURI(wasmBinaryFile)) {
     wasmBinaryFile = locateFile(wasmBinaryFile);
   }
@@ -1816,14 +1816,17 @@ var ASM_CONSTS = {
       return demangleAll(js);
     }
 
-  function _js_add(a, b) {
-        console.log("js_add");
-        return a + b;
-      }
+  /** @type {function(...*):?} */
+  function _foo(
+  ) {
+  err('missing function: foo'); abort(-1);
+  }
 
-  function _js_console_log_int(param) {
-        console.log("js_console_log_int:" + param);
-      }
+  /** @type {function(...*):?} */
+  function _fuck(
+  ) {
+  err('missing function: fuck'); abort(-1);
+  }
 var ASSERTIONS = true;
 
 
@@ -1857,21 +1860,15 @@ function checkIncomingModuleAPI() {
   ignoredModuleProp('fetchSettings');
 }
 var asmLibraryArg = {
-  "js_add": _js_add,
-  "js_console_log_int": _js_console_log_int
+  "foo": _foo,
+  "fuck": _fuck
 };
 var asm = createWasm();
 /** @type {function(...*):?} */
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__wasm_call_ctors");
 
 /** @type {function(...*):?} */
-var _show_me_the_answer = Module["_show_me_the_answer"] = createExportWrapper("show_me_the_answer");
-
-/** @type {function(...*):?} */
-var _add = Module["_add"] = createExportWrapper("add");
-
-/** @type {function(...*):?} */
-var _print_the_answer = Module["_print_the_answer"] = createExportWrapper("print_the_answer");
+var _call = Module["_call"] = createExportWrapper("call");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
